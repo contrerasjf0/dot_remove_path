@@ -9,13 +9,15 @@ def is_list_format(spot: str) -> bool:
 
 
 def get_parts_from_list_format(spot: str) -> dict:
-    pattern = r'^(?P<spot>.+)\[(?P<index>\d+)\]$'
+    pattern = r'^(?P<spot>.+)\[(?P<index>\d*)\]$'
     m = re.match(pattern, spot)
 
     parts = {}
 
     if m != None:
         parts = m.groupdict()
+
+        parts['index'] = parts.get('index') if parts.get('index') != '' else 'all'
     else:
         raise ValueError('spot is not valid as list')
 

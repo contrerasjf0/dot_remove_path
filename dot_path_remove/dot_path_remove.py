@@ -11,10 +11,14 @@ def remove_spot(source: dict, spot: str) -> dict:
     else:
         list_parts = get_parts_from_list_format(spot)
         list_spot = list_parts.get('spot')
-        list_index = int(list_parts.get('index', ''))
+        list_index = list_parts.get('index')
 
-        if list_spot in source and isinstance(source[list_spot], list):
-            source[list_spot].pop(list_index)
+        if list_index == 'all':
+            source.pop(list_spot)
+        else:
+            list_index = int(list_index)
+            if list_spot in source and isinstance(source[list_spot], list):
+                source[list_spot].pop(list_index)
 
     return source
 
@@ -40,10 +44,15 @@ def remove_path_dot(source: dict, paths: str) -> dict:
             if is_spot_list:
                 list_spot_parts = get_parts_from_list_format(spot)
                 list_spot = list_spot_parts.get('spot')
-                list_index = int(list_spot_parts.get('index', ''))
+                list_index = list_spot_parts.get('index')
 
-                if list_spot in source_aux and isinstance(source_aux[list_spot], list):
-                    source_aux = source_aux[list_spot][list_index]
+                if list_index == 'all':
+                    source_aux = source_aux[list_spot]
+                else:
+                    list_index = int(list_index)
+                    if list_spot in source_aux and isinstance(source_aux[list_spot], list):
+                        source_aux = source_aux[list_spot][list_index]
+
             else:
                 if spot in source_aux:
                     source_aux = source_aux[spot]
